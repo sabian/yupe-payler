@@ -45,9 +45,8 @@ class PaylerPaymentSystem extends PaymentSystem
                 Yii::t('PaylerModule.payler', 'The order #{n} has been payed successfully.', $order->getPrimaryKey()),
                 CLogger::LEVEL_INFO
             );
-            Yii::app()->controller->redirect(['/order/order/view', 'url' => $order->url]);
 
-            return true;
+            return $order;
         } else {
             Yii::log(Yii::t('PaylerModule.payler', 'An error occurred when you pay the order #{n}.',
                 $order->getPrimaryKey()), CLogger::LEVEL_ERROR);
