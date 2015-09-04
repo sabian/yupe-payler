@@ -14,18 +14,10 @@ class PaylerPaymentSystem extends PaymentSystem
             return false;
         }
 
-        $form = CHtml::beginForm($payler->getUrl('Pay'));
-        $form .= CHtml::hiddenField('session_id', $sessionId);
-        $form .= CHtml::submitButton(Yii::t('PaylerModule.payler', 'Pay'));
-        $form .= CHtml::endForm();
-
-        if ($return) {
-            return $form;
-        } else {
-            echo $form;
-        }
-
-        return true;
+        return Yii::app()->getController()->renderPartial('application.modules.payler.views.form', [
+            'action' => $payler->getUrl('Pay'),
+            'sessionId' => $sessionId
+        ], $return);
     }
 
     public function processCheckout(Payment $payment, CHttpRequest $request)
