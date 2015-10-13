@@ -41,6 +41,20 @@ class Payler
     }
 
     /**
+     * Show error message for custormer
+     *
+     * @param string $message error text
+     * @return string
+     */
+    public function showError($message)
+    {
+         return Yii::app()->getUser()->setFlash(
+             yupe\widgets\YFlashMessages::ERROR_MESSAGE,
+             Yii::t('PaylerModule.payler', $message)
+         );
+    }
+
+    /**
      * Starts a payment session and returns its ID
      *
      * @param Order $order
