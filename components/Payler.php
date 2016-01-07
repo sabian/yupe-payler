@@ -75,7 +75,7 @@ class Payler
      */
     public function getOrderIdFromHash(CHttpRequest $request)
     {
-        $orderHash = explode('_', $request->getParam('order_id'));;
+        $orderHash = explode('_', $request->getParam('order_id'));
 
         if (count($orderHash) !== 2) {
             return false;

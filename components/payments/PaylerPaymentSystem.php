@@ -1,5 +1,7 @@
 <?php
 
+use yupe\widgets\YFlashMessages;
+
 Yii::import('application.modules.payler.PaylerModule');
 Yii::import('application.modules.payler.components.Payler');
 
@@ -11,6 +13,11 @@ class PaylerPaymentSystem extends PaymentSystem
         $sessionId = $payler->getSessionId($order);
 
         if (!$sessionId) {
+            Yii::app()->getUser()->setFlash(
+                YFlashMessages::ERROR_MESSAGE,
+                Yii::t('PaylerModule.payler', 'Payment by "{name}" is impossible', ['{name}' => $payment->name])
+            );
+
             return false;
         }
 
@@ -37,7 +44,7 @@ class PaylerPaymentSystem extends PaymentSystem
                 CLogger::LEVEL_ERROR
             );
 
-            return false;
+            return $order;
         }
 
         if ($payler->getPaymentStatus($request) === 'Charged' && $order->pay($payment)) {
@@ -45,13 +52,15 @@ class PaylerPaymentSystem extends PaymentSystem
                 Yii::t('PaylerModule.payler', 'The order #{n} has been payed successfully.', $order->getPrimaryKey()),
                 CLogger::LEVEL_INFO
             );
-
-            return $order;
         } else {
+            Yii::app()->getUser()->setFlash(
+                YFlashMessages::ERROR_MESSAGE,
+                Yii::t('PaylerModule.payler', 'Attempt to pay failed')
+            );
             Yii::log(Yii::t('PaylerModule.payler', 'An error occurred when you pay the order #{n}.',
                 $order->getPrimaryKey()), CLogger::LEVEL_ERROR);
-
-            return false;
         }
+
+        return $order;
     }
 }
