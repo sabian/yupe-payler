@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/sabian/yupe-payler/badges/gpa.svg)](https://codeclimate.com/github/sabian/yupe-payler)
+
 # yupe-payler
 Модуль приёма оплаты банковскими картами через сервис Payler для [CMS Yupe!](http://yupe.ru)
 
